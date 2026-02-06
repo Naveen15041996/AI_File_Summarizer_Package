@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Stores configurable settings for the AI File Summarizer feature, including parameters that control file processing, summarization behavior, and feature enablement.</description>
+    <label>AI File Summarizer Setting</label>
+    <pluralLabel>AI File Summarizer Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

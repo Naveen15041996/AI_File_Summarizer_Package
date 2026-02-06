@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Overall_Summary__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates whether this record represents the overall summary generated for the files. When unchecked, the record may represent as Individual summary.</description>
+    <label>Is Overall Summary</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
