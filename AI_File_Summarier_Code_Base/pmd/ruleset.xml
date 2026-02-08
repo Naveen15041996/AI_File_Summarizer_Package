@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Salesforce Apex Ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+                             http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+    <description>
+        Core PMD rules for Salesforce Apex focusing on performance,
+        security, maintainability, and governor limit safety.
+    </description>
+
+    <!-- Best Practices -->
+    <rule ref="category/apex/bestpractices.xml"/>
+
+    <!-- Performance (Governor Limits) -->
+    <rule ref="category/apex/performance.xml"/>
+
+    <!-- Security -->
+    <rule ref="category/apex/security.xml"/>
+
+    <!-- Design & Maintainability -->
+    <rule ref="category/apex/design.xml"/>
+
+    <!-- Code Style (optional but recommended) -->
+    <rule ref="category/apex/codestyle.xml"/>
+	
+	<!-- 45-line method enforcement -->
+    <rule ref="category/apex/design.xml/ExcessiveMethodLength">
+        <properties>
+            <property name="minimum" value="45"/>
+        </properties>
+    </rule>
+
+</ruleset>
