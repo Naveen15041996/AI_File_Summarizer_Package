@@ -1,0 +1,43 @@
+name: Prettier Formatting Check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - feature/**
+
+jobs:
+  prettier-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Get changed files (Apex + LWC + JS)
+        run: |
+          git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -E '\.(cls|trigger|js|html|css)$' \
+            > changed-prettier-files.txt || true
+
+          echo "Files to check:"
+          cat changed-prettier-files.txt || echo "None"
+
+      - name: Run Prettier check on changed files
+        if: ${{ hashFiles('changed-prettier-files.txt') != '' }}
+        run: |
+          npx prettier --check $(cat changed-prettier-files.txt)
+
+      - name: Skip Prettier (No relevant changes)
+        if: ${{ hashFiles('changed-prettier-files.txt') == '' }}
+        run: echo "No Apex / LWC / JS changes. Skipping Prettier."
