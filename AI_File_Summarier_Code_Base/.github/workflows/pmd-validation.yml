@@ -1,0 +1,59 @@
+name: PMD Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - feature/**
+
+jobs:
+  pmd-check:
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write   # REQUIRED for SARIF upload
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Download PMD 7.21.0
+        run: |
+          curl -L -o pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases/7.21.0/pmd-bin-7.21.0.zip
+          unzip -q pmd.zip
+
+      - name: Get changed Apex files
+        run: |
+          git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -E '\.(cls|trigger)$' \
+            > changed-apex-files.txt || true
+
+          cat changed-apex-files.txt
+
+      - name: Run PMD (SARIF output)
+        if: ${{ hashFiles('changed-apex-files.txt') != '' }}
+        run: |
+          ./pmd-bin-7.21.0/bin/run.sh pmd \
+            -filelist changed-apex-files.txt \
+            -R pmd/ruleset.xml \
+            -f sarif \
+            -r pmd-report.sarif
+
+      - name: Upload PMD results to GitHub
+        if: ${{ hashFiles('changed-apex-files.txt') != '' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: pmd-report.sarif
+
+      - name: Skip PMD (No Apex changes)
+        if: ${{ hashFiles('changed-apex-files.txt') == '' }}
+        run: echo "No Apex files changed. Skipping PMD."
