@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Feature_Enabled__c</fullName>
     <defaultValue>true</defaultValue>
-    <description>Controls whether the AI File Summarizer feature is enabled or disabled.</description>
-    <fieldManageability>DeveloperControlled</fieldManageability>
+    <description
+  >Controls whether the AI File Summarizer feature is enabled or disabled.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
     <label>Feature Enabled</label>
     <type>Checkbox</type>
 </CustomField>
